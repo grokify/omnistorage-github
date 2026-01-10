@@ -12,31 +12,31 @@
         { "description": "Initial release with GitHub repository backend for OmniStorage" }
       ],
       "added": [
-        { "description": "GitHub backend (`backend/github`) with `ExtendedBackend` implementation" },
-        { "description": "Read files via GitHub Contents API" },
-        { "description": "Write files with automatic commit creation" },
-        { "description": "Batch commits via Git Trees and Commits API for atomic multi-file operations" },
-        { "description": "Delete files with automatic commit creation" },
-        { "description": "List files via GitHub Trees API with prefix filtering" },
-        { "description": "File metadata (size, SHA1 hash) via Stat" },
-        { "description": "Range read support (offset/limit)" },
-        { "description": "Personal access token authentication" },
-        { "description": "GitHub Enterprise support via custom BaseURL/UploadURL" },
-        { "description": "Configurable commit messages with `{path}` placeholder" },
-        { "description": "Configurable commit author (name and email)" },
-        { "description": "Backend registry integration (`github` name)" },
-        { "description": "Configuration from environment variables" },
-        { "description": "Configuration from string maps" }
+        { "description": "GitHub backend (`backend/github`) with `ExtendedBackend` implementation", "commit": "2aa33a0" },
+        { "description": "Read files via GitHub Contents API", "commit": "2aa33a0" },
+        { "description": "Write files with automatic commit creation", "commit": "2aa33a0" },
+        { "description": "Batch commits via Git Trees and Commits API for atomic multi-file operations", "commit": "2aa33a0" },
+        { "description": "Delete files with automatic commit creation", "commit": "2aa33a0" },
+        { "description": "List files via GitHub Trees API with prefix filtering", "commit": "2aa33a0" },
+        { "description": "File metadata (size, SHA1 hash) via Stat", "commit": "2aa33a0" },
+        { "description": "Range read support (offset/limit)", "commit": "2aa33a0" },
+        { "description": "Personal access token authentication", "commit": "2aa33a0" },
+        { "description": "GitHub Enterprise support via custom BaseURL/UploadURL", "commit": "2aa33a0" },
+        { "description": "Configurable commit messages with `{path}` placeholder", "commit": "2aa33a0" },
+        { "description": "Configurable commit author (name and email)", "commit": "2aa33a0" },
+        { "description": "Backend registry integration (`github` name)", "commit": "2aa33a0" },
+        { "description": "Configuration from environment variables", "commit": "2aa33a0" },
+        { "description": "Configuration from string maps", "commit": "2aa33a0" }
       ],
       "documentation": [
-        { "description": "README.md with usage examples, batch API, and configuration reference" },
-        { "description": "ROADMAP.md with planned features" },
-        { "description": "GoDoc comments on all public APIs" }
+        { "description": "README.md with usage examples, batch API, and configuration reference", "commit": "81a6406" },
+        { "description": "ROADMAP.md with planned features", "commit": "81a6406" },
+        { "description": "GoDoc comments on all public APIs", "commit": "2aa33a0" }
       ],
       "tests": [
-        { "description": "Unit tests for configuration parsing" },
-        { "description": "Unit tests for path validation and normalization" },
-        { "description": "Integration tests for backend operations (requires GITHUB_TOKEN)" }
+        { "description": "Unit tests for configuration parsing", "commit": "2aa33a0" },
+        { "description": "Unit tests for path validation and normalization", "commit": "2aa33a0" },
+        { "description": "Integration tests for backend operations (requires GITHUB_TOKEN)", "commit": "2aa33a0" }
       ]
     }
   ]
