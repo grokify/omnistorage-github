@@ -7,7 +7,7 @@
 [![Visualization][viz-svg]][viz-url]
 [![License][license-svg]][license-url]
 
-GitHub repository backend for [omnistorage](https://github.com/grokify/omnistorage).
+GitHub repository backend for [OmniStorage](https://github.com/grokify/omnistorage).
 
 ## Features
 
@@ -18,7 +18,7 @@ GitHub repository backend for [omnistorage](https://github.com/grokify/omnistora
 - Delete files from the repository
 - Configurable commit messages and author
 - Support for GitHub Enterprise
-- Automatic registration with omnistorage registry
+- Automatic registration with OmniStorage registry
 
 ## Installation
 
