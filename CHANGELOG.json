@@ -1,0 +1,43 @@
+{
+  "ir_version": "1.0",
+  "project": "omnistorage-github",
+  "repository": "https://github.com/grokify/omnistorage-github",
+  "versioning": "semver",
+  "commit_convention": "conventional",
+  "releases": [
+    {
+      "version": "0.1.0",
+      "date": "2026-01-10",
+      "highlights": [
+        { "description": "Initial release with GitHub repository backend for OmniStorage" }
+      ],
+      "added": [
+        { "description": "GitHub backend (`backend/github`) with `ExtendedBackend` implementation" },
+        { "description": "Read files via GitHub Contents API" },
+        { "description": "Write files with automatic commit creation" },
+        { "description": "Batch commits via Git Trees and Commits API for atomic multi-file operations" },
+        { "description": "Delete files with automatic commit creation" },
+        { "description": "List files via GitHub Trees API with prefix filtering" },
+        { "description": "File metadata (size, SHA1 hash) via Stat" },
+        { "description": "Range read support (offset/limit)" },
+        { "description": "Personal access token authentication" },
+        { "description": "GitHub Enterprise support via custom BaseURL/UploadURL" },
+        { "description": "Configurable commit messages with `{path}` placeholder" },
+        { "description": "Configurable commit author (name and email)" },
+        { "description": "Backend registry integration (`github` name)" },
+        { "description": "Configuration from environment variables" },
+        { "description": "Configuration from string maps" }
+      ],
+      "documentation": [
+        { "description": "README.md with usage examples, batch API, and configuration reference" },
+        { "description": "ROADMAP.md with planned features" },
+        { "description": "GoDoc comments on all public APIs" }
+      ],
+      "tests": [
+        { "description": "Unit tests for configuration parsing" },
+        { "description": "Unit tests for path validation and normalization" },
+        { "description": "Integration tests for backend operations (requires GITHUB_TOKEN)" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,222 @@
+{
+  "ir_version": "1.0",
+  "project": "omnistorage-github",
+  "repository": "https://github.com/grokify/omnistorage-github",
+
+  "legend": {
+    "completed": {"emoji": "✅", "description": "Completed"},
+    "in_progress": {"emoji": "🚧", "description": "In Progress"},
+    "planned": {"emoji": "📋", "description": "Planned"},
+    "future": {"emoji": "💡", "description": "Under Consideration"}
+  },
+
+  "phases": [
+    {
+      "id": "phase1",
+      "name": "Phase 1: Core Backend",
+      "status": "completed",
+      "order": 1,
+      "description": "Basic read/write operations for GitHub repositories"
+    },
+    {
+      "id": "phase2",
+      "name": "Phase 2: Advanced Features",
+      "status": "planned",
+      "order": 2,
+      "description": "PR creation, branch management, and large files"
+    },
+    {
+      "id": "phase3",
+      "name": "Phase 3: Performance & Caching",
+      "status": "future",
+      "order": 3,
+      "description": "Caching layer and performance optimizations"
+    }
+  ],
+
+  "items": [
+    {
+      "id": "read-files",
+      "title": "Read Files",
+      "description": "Read file content via GitHub Contents API",
+      "status": "completed",
+      "version": "0.1.0",
+      "completed_date": "2026-01-10",
+      "phase": "phase1",
+      "priority": "critical"
+    },
+    {
+      "id": "write-files",
+      "title": "Write Files",
+      "description": "Create/update files with automatic commit creation",
+      "status": "completed",
+      "version": "0.1.0",
+      "completed_date": "2026-01-10",
+      "phase": "phase1",
+      "priority": "critical"
+    },
+    {
+      "id": "batch-commits",
+      "title": "Batch Commits",
+      "description": "Atomic multi-file operations via Git Trees API",
+      "status": "completed",
+      "version": "0.1.0",
+      "completed_date": "2026-01-10",
+      "phase": "phase1",
+      "priority": "high"
+    },
+    {
+      "id": "delete-files",
+      "title": "Delete Files",
+      "description": "Delete files with automatic commit creation",
+      "status": "completed",
+      "version": "0.1.0",
+      "completed_date": "2026-01-10",
+      "phase": "phase1",
+      "priority": "high"
+    },
+    {
+      "id": "list-files",
+      "title": "List Files",
+      "description": "List files via GitHub Trees API with prefix filtering",
+      "status": "completed",
+      "version": "0.1.0",
+      "completed_date": "2026-01-10",
+      "phase": "phase1",
+      "priority": "high"
+    },
+    {
+      "id": "file-metadata",
+      "title": "File Metadata",
+      "description": "Get file size and SHA1 hash via Stat",
+      "status": "completed",
+      "version": "0.1.0",
+      "completed_date": "2026-01-10",
+      "phase": "phase1",
+      "priority": "medium"
+    },
+    {
+      "id": "github-enterprise",
+      "title": "GitHub Enterprise Support",
+      "description": "Support for GitHub Enterprise via custom BaseURL/UploadURL",
+      "status": "completed",
+      "version": "0.1.0",
+      "completed_date": "2026-01-10",
+      "phase": "phase1",
+      "priority": "medium"
+    },
+    {
+      "id": "range-read",
+      "title": "Range Read Support",
+      "description": "Read file content with offset and limit",
+      "status": "completed",
+      "version": "0.1.0",
+      "completed_date": "2026-01-10",
+      "phase": "phase1",
+      "priority": "medium"
+    },
+    {
+      "id": "large-files",
+      "title": "Large File Support",
+      "description": "Support for files larger than 1MB via Git Blobs API",
+      "status": "planned",
+      "target_version": "0.2.0",
+      "phase": "phase2",
+      "priority": "high"
+    },
+    {
+      "id": "pr-creation",
+      "title": "Pull Request Creation",
+      "description": "Create pull requests for changes instead of direct commits",
+      "status": "planned",
+      "target_version": "0.2.0",
+      "phase": "phase2",
+      "priority": "medium"
+    },
+    {
+      "id": "branch-creation",
+      "title": "Branch Creation",
+      "description": "Create branches for isolated changes",
+      "status": "planned",
+      "target_version": "0.2.0",
+      "phase": "phase2",
+      "priority": "medium"
+    },
+    {
+      "id": "commit-history",
+      "title": "Commit History Access",
+      "description": "Access file commit history and diffs",
+      "status": "future",
+      "phase": "phase2",
+      "priority": "low"
+    },
+    {
+      "id": "file-blame",
+      "title": "File Blame Information",
+      "description": "Get file blame information",
+      "status": "future",
+      "phase": "phase2",
+      "priority": "low"
+    },
+    {
+      "id": "caching",
+      "title": "Caching Layer",
+      "description": "Cache file contents and metadata for repeated reads",
+      "status": "future",
+      "phase": "phase3",
+      "priority": "medium"
+    },
+    {
+      "id": "workflow-triggers",
+      "title": "GitHub Actions Integration",
+      "description": "Trigger GitHub Actions workflows on file changes",
+      "status": "future",
+      "phase": "phase3",
+      "priority": "low"
+    }
+  ],
+
+  "sections": [
+    {
+      "id": "overview",
+      "title": "Overview",
+      "order": 1,
+      "content": [
+        {"type": "text", "value": "This roadmap tracks the development of the GitHub repository backend for OmniStorage."}
+      ]
+    },
+    {
+      "id": "limitations",
+      "title": "Current Limitations",
+      "order": 50,
+      "content": [
+        {"type": "text", "value": "The following operations are not supported and return `ErrNotSupported`:"},
+        {"type": "list", "items": [
+          "Mkdir - GitHub doesn't have explicit directories",
+          "Rmdir - GitHub doesn't have explicit directories",
+          "Copy - Would require read + write (multiple commits)",
+          "Move - Would require read + write + delete (multiple commits)"
+        ]}
+      ]
+    },
+    {
+      "id": "contributing",
+      "title": "Contributing",
+      "order": 99,
+      "content": [
+        {"type": "text", "value": "Contributions welcome! Priority areas:"},
+        {"type": "list", "items": [
+          "Large file support via Git Blobs API",
+          "Additional test coverage",
+          "Performance optimizations (caching)",
+          "Documentation improvements"
+        ]}
+      ]
+    }
+  ],
+
+  "version_history": [
+    {"version": "0.1.0", "date": "2026-01-10", "status": "completed", "summary": "Initial release with read, write, batch commits, and GitHub Enterprise support"},
+    {"version": "0.2.0", "date": null, "status": "planned", "summary": "Large file support, PR creation, branch management"}
+  ]
+}
