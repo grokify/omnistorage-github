@@ -6,6 +6,19 @@
   "commit_convention": "conventional",
   "releases": [
     {
+      "version": "0.1.1",
+      "date": "2026-01-17",
+      "changed": [
+        { "description": "Upgrade `go-github` from v68 to v81", "commit": "1cd5f90" },
+        { "description": "Refactor path validation and normalization to use `gogithub/pathutil`", "commit": "1cd5f90" },
+        { "description": "Refactor error translation to use `gogithub/errors`", "commit": "1cd5f90" }
+      ],
+      "dependencies": [
+        { "description": "`github.com/google/go-github/v81` v81.0.0 (was v68)", "commit": "1cd5f90" },
+        { "description": "`github.com/grokify/gogithub` v0.5.0 (new)", "commit": "1cd5f90" }
+      ]
+    },
+    {
       "version": "0.1.0",
       "date": "2026-01-10",
       "highlights": [
