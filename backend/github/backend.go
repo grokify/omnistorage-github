@@ -5,11 +5,12 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"path"
 	"strings"
 	"sync"
 
-	"github.com/google/go-github/v68/github"
+	"github.com/google/go-github/v81/github"
+	gherrors "github.com/grokify/gogithub/errors"
+	"github.com/grokify/gogithub/pathutil"
 	"github.com/grokify/omnistorage"
 	"golang.org/x/oauth2"
 )
@@ -96,8 +97,8 @@ func (b *Backend) NewWriter(ctx context.Context, filePath string, opts ...omnist
 		return nil, err
 	}
 
-	if err := validatePath(filePath); err != nil {
-		return nil, err
+	if err := pathutil.Validate(filePath); err != nil {
+		return nil, translatePathError(err)
 	}
 
 	if filePath == "" {
@@ -107,7 +108,7 @@ func (b *Backend) NewWriter(ctx context.Context, filePath string, opts ...omnist
 	return &writer{
 		backend:  b,
 		ctx:      ctx,
-		filePath: normalizePath(filePath),
+		filePath: pathutil.Normalize(filePath),
 		buffer:   &bytes.Buffer{},
 	}, nil
 }
@@ -212,11 +213,11 @@ func (b *Backend) NewReader(ctx context.Context, filePath string, opts ...omnist
 		return nil, err
 	}
 
-	if err := validatePath(filePath); err != nil {
-		return nil, err
+	if err := pathutil.Validate(filePath); err != nil {
+		return nil, translatePathError(err)
 	}
 
-	normalPath := normalizePath(filePath)
+	normalPath := pathutil.Normalize(filePath)
 
 	// Get file content from GitHub
 	fileContent, _, resp, err := b.client.Repositories.GetContents(
@@ -275,11 +276,11 @@ func (b *Backend) Exists(ctx context.Context, filePath string) (bool, error) {
 		return false, err
 	}
 
-	if err := validatePath(filePath); err != nil {
-		return false, err
+	if err := pathutil.Validate(filePath); err != nil {
+		return false, translatePathError(err)
 	}
 
-	normalPath := normalizePath(filePath)
+	normalPath := pathutil.Normalize(filePath)
 
 	_, _, resp, err := b.client.Repositories.GetContents(
 		ctx,
@@ -320,15 +321,15 @@ func (b *Backend) Delete(ctx context.Context, filePath string) error {
 		return err
 	}
 
-	if err := validatePath(filePath); err != nil {
-		return err
+	if err := pathutil.Validate(filePath); err != nil {
+		return translatePathError(err)
 	}
 
 	if filePath == "" {
 		return omnistorage.ErrInvalidPath
 	}
 
-	normalPath := normalizePath(filePath)
+	normalPath := pathutil.Normalize(filePath)
 
 	// Get existing file SHA (required for delete)
 	fileContent, _, resp, err := b.client.Repositories.GetContents(
@@ -406,7 +407,7 @@ func (b *Backend) List(ctx context.Context, prefix string) ([]string, error) {
 		return nil, err
 	}
 
-	normalPrefix := normalizePath(prefix)
+	normalPrefix := pathutil.Normalize(prefix)
 
 	// Get the tree recursively
 	tree, resp, err := b.client.Git.GetTree(
@@ -466,11 +467,11 @@ func (b *Backend) Stat(ctx context.Context, filePath string) (omnistorage.Object
 		return nil, err
 	}
 
-	if err := validatePath(filePath); err != nil {
-		return nil, err
+	if err := pathutil.Validate(filePath); err != nil {
+		return nil, translatePathError(err)
 	}
 
-	normalPath := normalizePath(filePath)
+	normalPath := pathutil.Normalize(filePath)
 
 	fileContent, dirContents, resp, err := b.client.Repositories.GetContents(
 		ctx,
@@ -570,56 +571,29 @@ func (b *Backend) translateError(err error, resp *github.Response) error {
 		return nil
 	}
 
-	// Check response status code
-	if resp != nil {
-		switch resp.StatusCode {
-		case 404:
-			return omnistorage.ErrNotFound
-		case 403, 401:
-			return omnistorage.ErrPermissionDenied
-		}
-	}
+	// Use gogithub's error translation
+	ghErr := gherrors.Translate(err, resp)
 
-	// Check error response type
-	if errResp, ok := err.(*github.ErrorResponse); ok {
-		if errResp.Response != nil {
-			switch errResp.Response.StatusCode {
-			case 404:
-				return omnistorage.ErrNotFound
-			case 403, 401:
-				return omnistorage.ErrPermissionDenied
-			}
-		}
+	// Map gogithub errors to omnistorage errors
+	if gherrors.IsNotFound(ghErr) {
+		return omnistorage.ErrNotFound
+	}
+	if gherrors.IsPermissionDenied(ghErr) {
+		return omnistorage.ErrPermissionDenied
 	}
 
 	return fmt.Errorf("github: %w", err)
 }
 
-// validatePath checks if a path is valid.
-func validatePath(p string) error {
-	if p == "" {
-		return nil // Empty path is valid (root)
+// translatePathError converts pathutil errors to omnistorage errors.
+func translatePathError(err error) error {
+	if err == nil {
+		return nil
 	}
-
-	// Check raw path for path traversal before cleaning
-	if strings.Contains(p, "..") {
+	if err == pathutil.ErrPathTraversal || err == pathutil.ErrInvalidPath {
 		return omnistorage.ErrInvalidPath
 	}
-
-	return nil
-}
-
-// normalizePath normalizes a path for GitHub API.
-func normalizePath(p string) string {
-	if p == "" {
-		return ""
-	}
-	p = path.Clean(p)
-	p = strings.TrimPrefix(p, "/")
-	if p == "." {
-		return ""
-	}
-	return p
+	return err
 }
 
 // Ensure Backend implements interfaces.

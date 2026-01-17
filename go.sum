@@ -1,9 +1,13 @@
 github.com/google/go-cmp v0.6.0/go.mod h1:17dUlkBOakJ0+DkrSSNjCkIjxS6bF9zb3elmeNGIjoY=
-github.com/google/go-github/v68 v68.0.0 h1:ZW57zeNZiXTdQ16qrDiZ0k6XucrxZ2CGmoTvcCyQG6s=
-github.com/google/go-github/v68 v68.0.0/go.mod h1:K9HAUBovM2sLwM408A18h+wd9vqdLOEqTUCbnRIcx68=
+github.com/google/go-cmp v0.7.0 h1:wk8382ETsv4JYUZwIsn6YpYiWiBsYLSJiTsyBybVuN8=
+github.com/google/go-cmp v0.7.0/go.mod h1:pXiqmnSA92OHEEa9HXL2W4E7lf9JzCmGVUdgjX3N/iU=
+github.com/google/go-github/v81 v81.0.0 h1:hTLugQRxSLD1Yei18fk4A5eYjOGLUBKAl/VCqOfFkZc=
+github.com/google/go-github/v81 v81.0.0/go.mod h1:upyjaybucIbBIuxgJS7YLOZGziyvvJ92WX6WEBNE3sM=
 github.com/google/go-querystring v1.2.0 h1:yhqkPbu2/OH+V9BfpCVPZkNmUXhb2gBxJArfhIxNtP0=
 github.com/google/go-querystring v1.2.0/go.mod h1:8IFJqpSRITyJ8QhQ13bmbeMBDfmeEJZD5A0egEOmkqU=
-github.com/grokify/omnistorage v0.1.0 h1:r9SZELbwoefhA47B4gvdMUTvN/ddxHNW7yJypAo7qw8=
-github.com/grokify/omnistorage v0.1.0/go.mod h1:mr9uB96wHYNRiYhjJ7215ukDX5nTehiBtp+UvXhbYUI=
+github.com/grokify/gogithub v0.5.0 h1:Jav+c7xAj7984qH08FjHoPuLvk25rkVtGcoPlg6hWd0=
+github.com/grokify/gogithub v0.5.0/go.mod h1:yFk38gul9rq40AnaF4YIABN26an5ef2kRTqEqIzksmI=
+github.com/grokify/omnistorage v0.2.0 h1:yc0WnHSGHb9xPwpWOluuHVRskPVEVyKv4pN830h/ogY=
+github.com/grokify/omnistorage v0.2.0/go.mod h1:jTzlosbLzOKnjuHax5lxTsa9/7w9iy00fJs6iNG63jI=
 golang.org/x/oauth2 v0.34.0 h1:hqK/t4AKgbqWkdkcAeI8XLmbK+4m4G5YeQRrmiotGlw=
 golang.org/x/oauth2 v0.34.0/go.mod h1:lzm5WQJQwKZ3nwavOZ3IS5Aulzxi68dUSgRHujetwEA=

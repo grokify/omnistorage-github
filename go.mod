@@ -1,10 +1,11 @@
 module github.com/grokify/omnistorage-github
 
-go 1.24.0
+go 1.25.5
 
 require (
-	github.com/google/go-github/v68 v68.0.0
-	github.com/grokify/omnistorage v0.1.0
+	github.com/google/go-github/v81 v81.0.0
+	github.com/grokify/gogithub v0.5.0
+	github.com/grokify/omnistorage v0.2.0
 	golang.org/x/oauth2 v0.34.0
 )
 

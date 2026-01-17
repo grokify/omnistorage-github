@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/google/go-github/v68/github"
+	"github.com/google/go-github/v81/github"
+	"github.com/grokify/gogithub/pathutil"
 	"github.com/grokify/omnistorage"
 )
 
@@ -71,8 +72,8 @@ func (batch *Batch) Write(filePath string, content []byte) error {
 		return fmt.Errorf("github: batch already committed")
 	}
 
-	if err := validatePath(filePath); err != nil {
-		return err
+	if err := pathutil.Validate(filePath); err != nil {
+		return translatePathError(err)
 	}
 
 	if filePath == "" {
@@ -81,7 +82,7 @@ func (batch *Batch) Write(filePath string, content []byte) error {
 
 	batch.operations = append(batch.operations, BatchOperation{
 		Type:    BatchOpWrite,
-		Path:    normalizePath(filePath),
+		Path:    pathutil.Normalize(filePath),
 		Content: content,
 	})
 
@@ -99,8 +100,8 @@ func (batch *Batch) Delete(filePath string) error {
 		return fmt.Errorf("github: batch already committed")
 	}
 
-	if err := validatePath(filePath); err != nil {
-		return err
+	if err := pathutil.Validate(filePath); err != nil {
+		return translatePathError(err)
 	}
 
 	if filePath == "" {
@@ -109,7 +110,7 @@ func (batch *Batch) Delete(filePath string) error {
 
 	batch.operations = append(batch.operations, BatchOperation{
 		Type: BatchOpDelete,
-		Path: normalizePath(filePath),
+		Path: pathutil.Normalize(filePath),
 	})
 
 	return nil
@@ -198,17 +199,17 @@ func (batch *Batch) Commit() error {
 	}
 
 	// Step 5: Create the new commit
-	commitOpts := &github.Commit{
-		Message: &batch.message,
+	commitOpts := github.Commit{
+		Message: github.Ptr(batch.message),
 		Tree:    newTree,
-		Parents: []*github.Commit{{SHA: &currentCommitSHA}},
+		Parents: []*github.Commit{{SHA: github.Ptr(currentCommitSHA)}},
 	}
 
 	// Set commit author if configured
 	if batch.backend.config.CommitAuthor != nil {
 		commitOpts.Author = &github.CommitAuthor{
-			Name:  &batch.backend.config.CommitAuthor.Name,
-			Email: &batch.backend.config.CommitAuthor.Email,
+			Name:  github.Ptr(batch.backend.config.CommitAuthor.Name),
+			Email: github.Ptr(batch.backend.config.CommitAuthor.Email),
 		}
 	}
 
@@ -225,14 +226,17 @@ func (batch *Batch) Commit() error {
 
 	// Step 6: Update the branch reference
 	newCommitSHA := newCommit.GetSHA()
-	ref.Object.SHA = &newCommitSHA
+	updateRef := github.UpdateRef{
+		SHA:   newCommitSHA,
+		Force: github.Ptr(false),
+	}
 
 	_, resp, err = batch.backend.client.Git.UpdateRef(
 		batch.ctx,
 		batch.backend.config.Owner,
 		batch.backend.config.Repo,
-		ref,
-		false, // force
+		ref.GetRef(),
+		updateRef,
 	)
 	if err != nil {
 		return batch.backend.translateError(err, resp)
@@ -254,7 +258,7 @@ func (batch *Batch) buildTreeEntries() ([]*github.TreeEntry, error) {
 				batch.ctx,
 				batch.backend.config.Owner,
 				batch.backend.config.Repo,
-				&github.Blob{
+				github.Blob{
 					Content:  github.Ptr(string(op.Content)),
 					Encoding: github.Ptr("utf-8"),
 				},

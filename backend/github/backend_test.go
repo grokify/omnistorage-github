@@ -9,6 +9,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/grokify/gogithub/pathutil"
 	"github.com/grokify/omnistorage"
 )
 
@@ -707,9 +708,9 @@ func TestValidatePath(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.path, func(t *testing.T) {
-			err := validatePath(tt.path)
+			err := pathutil.Validate(tt.path)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("validatePath(%q) error = %v, wantErr %v", tt.path, err, tt.wantErr)
+				t.Errorf("pathutil.Validate(%q) error = %v, wantErr %v", tt.path, err, tt.wantErr)
 			}
 		})
 	}
@@ -731,9 +732,9 @@ func TestNormalizePath(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.input, func(t *testing.T) {
-			got := normalizePath(tt.input)
+			got := pathutil.Normalize(tt.input)
 			if got != tt.want {
-				t.Errorf("normalizePath(%q) = %q, want %q", tt.input, got, tt.want)
+				t.Errorf("pathutil.Normalize(%q) = %q, want %q", tt.input, got, tt.want)
 			}
 		})
 	}
