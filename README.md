@@ -1,29 +1,28 @@
-# OmniStorage GitHub Provider
+# omni-github
 
 [![Build Status][build-status-svg]][build-status-url]
 [![Lint Status][lint-status-svg]][lint-status-url]
 [![Go Report Card][goreport-svg]][goreport-url]
 [![Docs][docs-godoc-svg]][docs-godoc-url]
-[![Visualization][viz-svg]][viz-url]
 [![License][license-svg]][license-url]
 
-GitHub repository backend for [OmniStorage](https://github.com/grokify/omnistorage).
+GitHub repository backend for [omnistorage-core](https://github.com/plexusone/omnistorage-core).
 
 ## Features
 
-- 📄 Read and write files to any branch of a GitHub repository
-- ⚡ Batch multiple file operations into a single atomic commit
-- 📂 List files in directories with prefix filtering
-- 🔍 Get file metadata (size, SHA1 hash)
-- 🗑️ Delete files from the repository
-- ⚙️ Configurable commit messages and author
-- 🏢 Support for GitHub Enterprise
-- 🔌 Automatic registration with OmniStorage registry
+- Read and write files to any branch of a GitHub repository
+- Batch multiple file operations into a single atomic commit
+- List files in directories with prefix filtering
+- Get file metadata (size, SHA1 hash)
+- Delete files from the repository
+- Configurable commit messages and author
+- Support for GitHub Enterprise
+- Automatic registration with OmniStorage registry
 
 ## Installation
 
 ```bash
-go get github.com/grokify/omnistorage-github
+go get github.com/plexusone/omni-github/omnistorage
 ```
 
 ## Quick Start
@@ -39,14 +38,14 @@ import (
     "log"
     "os"
 
-    "github.com/grokify/omnistorage-github/backend/github"
+    "github.com/plexusone/omni-github/omnistorage/backend/github"
 )
 
 func main() {
     backend, err := github.New(github.Config{
-        Owner:  "grokify",
-        Repo:   "omnistorage",
-        Branch: "master",
+        Owner:  "plexusone",
+        Repo:   "omnistorage-core",
+        Branch: "main",
         Token:  os.Getenv("GITHUB_TOKEN"),
     })
     if err != nil {
@@ -116,7 +115,7 @@ The batch API uses the Git Trees and Commits API to create a single commit with 
 
 ```go
 backend, err := github.New(github.Config{
-    Owner:         "grokify",
+    Owner:         "myorg",
     Repo:          "my-repo",
     Token:         os.Getenv("GITHUB_TOKEN"),
     CommitMessage: "[bot] Update {path}",
@@ -131,14 +130,14 @@ backend, err := github.New(github.Config{
 
 ```go
 import (
-    "github.com/grokify/omnistorage"
-    _ "github.com/grokify/omnistorage-github/backend/github" // Register backend
+    omnistorage "github.com/plexusone/omnistorage-core/object"
+    _ "github.com/plexusone/omni-github/omnistorage/backend/github" // Register backend
 )
 
 backend, err := omnistorage.Open("github", map[string]string{
-    "owner":  "grokify",
-    "repo":   "omnistorage",
-    "branch": "master",
+    "owner":  "plexusone",
+    "repo":   "omnistorage-core",
+    "branch": "main",
     "token":  os.Getenv("GITHUB_TOKEN"),
 })
 ```
@@ -225,30 +224,22 @@ Supported environment variables:
 - **Rate limits**: GitHub API has rate limits (5,000 requests/hour for authenticated users).
 - **Commits per write**: Each `NewWriter.Close()` creates a separate commit. For bulk operations, use `NewBatch()` to combine multiple operations into a single commit.
 
-## API Reference
-
-See [pkg.go.dev](https://pkg.go.dev/github.com/grokify/omnistorage-github) for full documentation.
-
 ## Related Projects
 
-- [omnistorage](https://github.com/grokify/omnistorage) - Core storage abstraction library
-- [omnistorage-google](https://github.com/grokify/omnistorage-google) - Google Drive and GCS backends
+- [omnistorage-core](https://github.com/plexusone/omnistorage-core) - Core storage abstraction library
+- [omni-aws](https://github.com/plexusone/omni-aws) - AWS S3 and Bedrock providers
 
 ## License
 
 MIT License - see [LICENSE](LICENSE) for details.
 
- [build-status-svg]: https://github.com/grokify/omnistorage-github/actions/workflows/ci.yaml/badge.svg?branch=main
- [build-status-url]: https://github.com/grokify/omnistorage-github/actions/workflows/ci.yaml
- [lint-status-svg]: https://github.com/grokify/omnistorage-github/actions/workflows/lint.yaml/badge.svg?branch=main
- [lint-status-url]: https://github.com/grokify/omnistorage-github/actions/workflows/lint.yaml
- [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/omnistorage-github
- [goreport-url]: https://goreportcard.com/report/github.com/grokify/omnistorage-github
- [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/grokify/omnistorage-github
- [docs-godoc-url]: https://pkg.go.dev/github.com/grokify/omnistorage-github
- [viz-svg]: https://img.shields.io/badge/visualizaton-Go-blue.svg
- [viz-url]: https://mango-dune-07a8b7110.1.azurestaticapps.net/?repo=grokify%2Fomnistorage-github
- [loc-svg]: https://tokei.rs/b1/github/grokify/omnistorage-github
- [repo-url]: https://github.com/grokify/omnistorage-github
+ [build-status-svg]: https://github.com/plexusone/omni-github/actions/workflows/ci.yaml/badge.svg?branch=main
+ [build-status-url]: https://github.com/plexusone/omni-github/actions/workflows/ci.yaml
+ [lint-status-svg]: https://github.com/plexusone/omni-github/actions/workflows/lint.yaml/badge.svg?branch=main
+ [lint-status-url]: https://github.com/plexusone/omni-github/actions/workflows/lint.yaml
+ [goreport-svg]: https://goreportcard.com/badge/github.com/plexusone/omni-github
+ [goreport-url]: https://goreportcard.com/report/github.com/plexusone/omni-github
+ [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/plexusone/omni-github/omnistorage
+ [docs-godoc-url]: https://pkg.go.dev/github.com/plexusone/omni-github/omnistorage
  [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
- [license-url]: https://github.com/grokify/omnistorage-github/blob/master/LICENSE
+ [license-url]: https://github.com/plexusone/omni-github/blob/main/LICENSE
