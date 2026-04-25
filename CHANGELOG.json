@@ -6,6 +6,20 @@
   "commitConvention": "conventional",
   "releases": [
     {
+      "version": "v0.3.0",
+      "date": "2026-04-25",
+      "highlights": [
+        { "description": "Restructured to match omni-aws and omni-google patterns with omnistorage/ subdirectory" }
+      ],
+      "breaking": [
+        { "description": "Move backend to `omnistorage/backend/` subdirectory to match other omni-* repos" },
+        { "description": "Import path changed from `.../backend/github` to `.../omnistorage/backend/github`" }
+      ],
+      "upgradeGuide": [
+        { "description": "Update import paths from `github.com/plexusone/omni-github/backend/github` to `github.com/plexusone/omni-github/omnistorage/backend/github`" }
+      ]
+    },
+    {
       "version": "v0.2.0",
       "date": "2026-04-25",
       "highlights": [
